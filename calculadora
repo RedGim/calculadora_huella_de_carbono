@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Huella de Carbono</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 600px;
+        }
+        form {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Huella de Carbono</h1>
+    <form id="carbonCalculator">
+        <label for="electricity">Consumo eléctrico mensual (kWh):</label>
+        <input type="number" id="electricity" name="electricity" required>
+        
+        <label for="transport">Kilómetros recorridos en transporte (mensual):</label>
+        <input type="number" id="transport" name="transport" required>
+        
+        <label for="diet">¿Tu dieta incluye carne? (Sí/No):</label>
+        <select id="diet" name="diet">
+            <option value="yes">Sí</option>
+            <option value="no">No</option>
+        </select>
+        
+        <button type="button" onclick="calculateCarbon()">Calcular</button>
+    </form>
+    <script>
+        function calculateCarbon() {
+            const electricity = parseFloat(document.getElementById("electricity").value);
+            const transport = parseFloat(document.getElementById("transport").value);
+            const diet = document.getElementById("diet").value;
+
+            const electricityFactor = 0.233; // kg CO₂/kWh
+            const transportFactor = 0.2; // kg CO₂/km
+            const dietFactor = diet === "yes" ? 2 : 1; // Multiplicador por dieta
+
+            const electricityEmissions = electricity * electricityFactor;
+            const transportEmissions = transport * transportFactor;
+            const dietEmissions = 100 * dietFactor;
+
+            const totalEmissions = electricityEmissions + transportEmissions + dietEmissions;
+
+            alert(`Tu huella de carbono mensual es aproximadamente ${totalEmissions.toFixed(2)} kg de CO₂.`);
+        }
+    </script>
+</body>
+</html>
